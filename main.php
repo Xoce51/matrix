@@ -1,25 +1,42 @@
 <?php
+	header('Content-type:application/json');
 	include 'matrix.php';
-	
+	/*
+	$_POST = array(
+	  "calcul" => "somme",
+	  "matrix" => array(
+	  	array(
+	  		"x" => 3,
+	  		"y" => 2,
+	  		"values" => array(1, 2, 3, 3, 2, 17)
+	  	),
+	  	array(
+	  		"x" => 3,
+	  		"y" => 2,
+	  		"values" => array(1, 2, 3, 3, 2, 17)
+	  	)
+	  )
+	 );
+	*/
 	$calcul = $_POST['calcul'];
 	$mat = array();
 	
 	if ($calcul && !empty($_POST['matrix']))
 	{
-		$matrix = $_POST['matrix'];
 		
+		$matrix = $_POST['matrix'];
+
 		# Matrix instantiation
 		foreach($matrix as $m)
-		{
 			$mat[] = new Matrix($m['x'], $m['y']);
-		}
-		
+
 		# now populate 1 by 1
 			# matrix 1
 		$max["x"] = $mat[0]->getSize();
-		$max["y"] = $mat[0]->getSize("y");
+		$max["y"] = $mat[0]->getSize("cols");
 		$x = 0;
 		$y = 0;
+		$i = 0;
 		
 		while($max['y'] > $y)
 		{
@@ -29,17 +46,19 @@
 			{
 				$x = 0;
 				$y++;
-				
 			}
+			$i++;
 		}
 		
 		if ($mat[1])
 		{
 				# matrix 2
 			$max["x"] = $mat[1]->getSize();
-			$max["y"] = $mat[1]->getSize("y");
+			$max["y"] = $mat[1]->getSize("cols");
 			$x = 0;
 			$y = 0;
+			$i = 0;
+			
 			while($max['y'] > $y)
 			{
 				$mat[1]->setElem($x, $y, $matrix[1]['values'][$i]);
@@ -48,27 +67,30 @@
 				{
 					$x = 0;
 					$y++;
-					
 				}
+				$i++;
 			}
 		}
-		
-		if ($calcul = "addition")
-			return json_encode($mat[0]->add($mat[1]));
+
+		// made calcul
+		if ($calcul == "somme")
+			die(json_encode($mat[0]->add($mat[1])));
 		else if ($calcul == "produit")
-			return json_encode($mat[0]->multiply($mat[1]));
+			die(json_encode($mat[0]->multiply($mat[1])));
 		else if ($calcul == 'transposé')
-			return json_encode($mat[0]->transpose());
+			die(json_encode($mat[0]->transpose()));
 		else if ($calcul == 'trace')
-			return json_encode($mat[0]->trace());
+			die(json_encode($mat[0]->trace()));
 		else 
-			return json_encode('Unknown action try again');
+			die(json_encode(array('Unknown action try again')));
 		
 	}
-	
+	echo json_encode(array('No calcul method send'));
 	/*
 	 * Structure des POST matrix
 	 * array(
+	 * "calcul" => "somme"
+	 * "matrix" =>array(
 	 * 	[0] => array(
 	 * 		"x" => 3,
 	 * 		"y" => 2,
@@ -79,6 +101,7 @@
 	 * 		"y" => 4,
 	 * 		"values" => array(3, 4, 3, 4, 3, 4, 3, 4)
 	 * 	)
+	 * )
 	 * )
 	 * 
 	 * 

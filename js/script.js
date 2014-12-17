@@ -6,6 +6,7 @@ jQuery(function($){
 	// initial var
 	var $choice = $("input[name=choice]");
 	var totalNumber = 0;
+	var mod = '';
 	var matrixSize = {
 		a: {
 			x: 1,
@@ -19,6 +20,7 @@ jQuery(function($){
 	
 	// display matrix size tab
 	$choice.on("click", function(e){
+		mod = $(this).val();
 		$('.matrix.first').fadeIn();
 	});
 	
@@ -40,21 +42,20 @@ jQuery(function($){
 
 	// Check if matrix number are OK and display the array
 	$(document).on("click", "#display_matrix", function(e){
-			console.log(matrixSize);
 			var $res = $("#res");
 			var html = '<table>';
-			var i = 0;
-			var j = 0;
+			var i = 1;
+			var j = 1;
 
 			// fill first tab...
-			for(i; i < matrixSize.a.y; i++)
+			for(i; i <= matrixSize.a.x; i++)
 			{
 				html += '<tr>';
-				for(j; j < matrixSize.a.x; j++)
+				for(j; j <= matrixSize.a.y; j++)
 				{
-					html += '<td><input type="text" placeholder="X" name="a_'+ j +'_' + i + '" /></td>';
+					html += '<td><input type="text" class="matrixData-first" placeholder="X" name="a_'+ i +'_' + j + '" /></td>';
 				}
-				j = 0;
+				j = 1;
 				html += "</tr>";
 			}
 			html += '</table>';
@@ -62,18 +63,66 @@ jQuery(function($){
 			
 			// second array
 			html = '<table>';
-			for(i = 0; i < matrixSize.b.y; i++)
+			for(i = 1; i <= matrixSize.b.x; i++)
 			{
 				html += '<tr>';
-				for(j = 0; j < matrixSize.b.x; j++)
+				for(j = 1; j <= matrixSize.b.y; j++)
 				{
-					html += '<td><input type="text" placeholder="X" name="b_'+ j +'_' + i + '" /></td>';
+					html += '<td><input type="text" class="matrixData-second" placeholder="X" name="b_'+ i +'_' + j + '" /></td>';
 				}
-				j = 0;
+				j = 1;
 				html += "</tr>";
 			}
 			$(".matrix.second").fadeIn();
 			// display and append html content
 			$res.fadeIn().find(".second").append(html);
+		});
+		
+		// send data with ajax
+		$(document).on("click", "#calc", function(e){
+			var dataSend = {
+				0: {
+					x: 1,
+					y: 1,
+					values: Array()
+				},
+				1: {
+					x: 1,
+					y: 1,
+					values: Array()
+				}
+			};
+			
+			// fill the data for matrix 1 & 2
+			var $dataDom = $(".matrixData-first");
+			dataSend[0].x = matrixSize.a.x;
+			dataSend[0].y = matrixSize.a.y;
+			$dataDom.each(function(el){
+				dataSend[0].values.push($(this).val());
+			});
+
+			var $dataDom = $(".matrixData-second");
+			dataSend[1].x = matrixSize.b.x;
+			dataSend[1].y = matrixSize.b.y;
+			$dataDom.each(function(el){
+				dataSend[1].values.push($(this).val());
+			});
+			
+			// finally send data to php
+			var d = {
+				"calcul": mod,
+				"matrix": dataSend
+			};
+			var $req = $.ajax({
+				url: 'main.php',
+				type: 'POST',
+				dataType: 'json',
+				data: d
+			}).done(function(msg){
+				console.log(msg);
+			}).fail(function(jqXHR, textStatus){
+				console.log(textStatus);
+				console.log(jqXHR);
+			});
 		});
 });
