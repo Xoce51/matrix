@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+    
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>Welcome ...  to the real world ...</h1>
+      </div>
+    </div>
+
+    <div class="row select">
+      <h5>Sélectionnez le type d'opération :</h5>
+    </div>
+
+    <div class="row select">
+      <input type="radio" name="choice" value="somme" id="somme"><label for="somme">Somme</label>
+      <input type="radio" name="choice" value="produit" id="produit"><label for="produit">Produit</label>
+      <input type="radio" name="choice" value="transposee" id="transposee"><label for="transposee">Transposée</label>
+      <input type="radio" name="choice" value="trace" id="trace"><label for="trace">Trace</label>
+    </div>
+
+	
+    <div class="row matrix first">
+      <div class="large-6 medium-6 columns">
+        <label align="center">[A] Nombre de ligne(s)</label>
+        <input type="text" placeholder="Chiffre entre 1 et 5" />
+      </div>
+      <div class="large-6 medium-6 columns">
+        <label align="center">[B] Nombre de ligne(s)</label>
+        <input type="text" placeholder="Chiffre entre 1 et 5" />
+      </div>
+    </div>
+
+    <div class="row matrix first">
+      <div class="large-6 medium-6 columns">
+        <label align="center">[A] Nombre de colonne(s)</label>
+        <input type="text" placeholder="Chiffre entre 1 et 5" />
+      </div>
+      <div class="large-6 medium-6 columns">
+        <label align="center">[B] Nombre de colonne(s)</label>
+        <input type="text" placeholder="Chiffre entre 1 et 5" />
+      </div>
+    </div>
+    
+    <div class="row matrix">
+      <div class="large-6 medium-6 columns">
+        <h5>Matrice A</h5>
+        <table>
+           <tr>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+           </tr>
+           <tr>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+           </tr>
+        </table>
+      </div>
+      <div class="large-6 medium-6 columns">
+        <h5>Matrice B</h5>
+        <table>
+           <tr>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+           </tr>
+           <tr>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+               <td><input type="text" placeholder="X" /></td>
+           </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row matrix">
+      <div class="large-12 medium-12 columns">
+        <button type="button pull-right">Valider</button>
+      </div>
+    </div>
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
