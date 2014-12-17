@@ -5,3 +5,7 @@ h1, h5 {
 .select, .validation {
 	text-align: center;
 }
+
+.matrix {
+	display: none;
+}
