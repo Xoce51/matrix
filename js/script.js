@@ -20,7 +20,13 @@ jQuery(function($) {
 	// display matrix size tab
 	$choice.on("click", function(e) {
 		mod = $(this).val();
-		$('.matrix.first').fadeIn();
+		if (mod == "transposee" || mod == "trace") {
+			$('.matrix.first').fadeOut();
+			$('.matrix.solo').fadeIn();
+		} else {
+			$('.matrix.solo').fadeOut();
+			$('.matrix.first').fadeIn();
+		}
 	});
 
 	// Check matrix value and set the array if value are ok
@@ -35,28 +41,27 @@ jQuery(function($) {
 		}
 	});
 
-
 	// Check if matrix number are OK and display the array
 	$(document).on("click", "#display_matrix", function(e) {
 		var $res = $("#res");
 		var html = '<table>';
 		var i = 1;
 		var j = 1;
-		
+
 		$res.find("table").remove();
 
-		if (mod == 'somme' && ((matrixSize.a.x != matrixSize.b.x) || (matrixSize.a.y != matrixSize.b.y)) ) {
+		if (mod == 'somme' && ((matrixSize.a.x != matrixSize.b.x) || (matrixSize.a.y != matrixSize.b.y))) {
 			$res.fadeOut();
 			$(".matrix.second").fadeOut();
 			alert("Somme A + B non calculable. Les matrices A et B doivent être de même taille");
-			return(false);
-		} else if (mod == 'produit' && ((matrixSize.a.y != matrixSize.b.x)) ) {
+			return (false);
+		} else if (mod == 'produit' && ((matrixSize.a.y != matrixSize.b.x))) {
 			$res.fadeOut();
 			$(".matrix.second").fadeOut();
 			alert("Produit A x B non calculable.");
-			return(false);
+			return (false);
 		}
-		
+
 		// fill first tab...
 		for (i; i <= matrixSize.a.x; i++) {
 			html += '<tr>';
@@ -126,18 +131,16 @@ jQuery(function($) {
 			data : d
 		}).done(function(msg) {
 			var m = '';
-			var html = '<table><tr>';
+			var html = '<table align="center"><tr>';
 			var i = 0;
-			
-			for (i = 0; i < msg.rows; i++)
-			{
+
+			for ( i = 0; i < msg.rows; i++) {
 				html += "<tr>";
-				for (m in msg.arr)
-				{
-						html += '<td>' + msg.arr[m][i] + '</td>';
+				for (m in msg.arr) {
+					html += '<td>' + msg.arr[m][i] + '</td>';
 				}
 				html += "</tr>";
-			}			
+			}
 			html += '</table>';
 			$("#resCalc").html(html);
 			$(".finalRes").fadeIn();
@@ -146,4 +149,4 @@ jQuery(function($) {
 			console.log(jqXHR);
 		});
 	});
-}); 
+});
