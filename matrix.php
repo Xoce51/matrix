@@ -1,5 +1,6 @@
 <?php 
-class Matrix {
+class Matrix
+{
     public $arr, $rows, $cols;
 
 	function __construct($row, $col)
@@ -48,6 +49,8 @@ class Matrix {
       	}
   		return ($rslt);
     }
+		else
+			return ("Invalid matrix format");
   }
 
   function multiply($matrix)
@@ -66,6 +69,8 @@ class Matrix {
       	}
     return ($rslt);
   	}
+		else
+			return ("Invalid matrix format");
   }
 		
 	function transpose()
