@@ -46,9 +46,14 @@ jQuery(function($) {
 		$res.find("table").remove();
 
 		if (mod == 'somme' && ((matrixSize.a.x != matrixSize.b.x) || (matrixSize.a.y != matrixSize.b.y)) ) {
-			alert("Somme A + B non calculable. Les matrices A et B doivent être de même taille");
 			$res.fadeOut();
 			$(".matrix.second").fadeOut();
+			alert("Somme A + B non calculable. Les matrices A et B doivent être de même taille");
+			return(false);
+		} else if (mod == 'produit' && ((matrixSize.a.y != matrixSize.b.x)) ) {
+			$res.fadeOut();
+			$(".matrix.second").fadeOut();
+			alert("Produit A x B non calculable.");
 			return(false);
 		}
 		
