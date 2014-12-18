@@ -42,9 +42,13 @@ jQuery(function($) {
 		var html = '<table>';
 		var i = 1;
 		var j = 1;
+		
+		$res.find("table").remove();
 
 		if (mod == 'somme' && ((matrixSize.a.x != matrixSize.b.x) || (matrixSize.a.y != matrixSize.b.y)) ) {
 			alert("Somme A + B non calculable. Les matrices A et B doivent être de même taille");
+			$res.fadeOut();
+			$(".matrix.second").fadeOut();
 			return(false);
 		}
 		
