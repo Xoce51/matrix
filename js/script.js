@@ -28,7 +28,7 @@ jQuery(function($){
 	$(".matrix_value").on("blur", function(e){
 		totalNumber++;
 		var $dom = $(e.target);
-		if ($dom.val() > 0 && $dom.val() <= 6)
+		if ($dom.val() > 0 && $dom.val() < 6)
 		{
 			matrixSize[$dom.attr("data-matrix")][$dom.attr("data-matrixType")] = $dom.val();
 		}
