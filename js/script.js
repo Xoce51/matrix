@@ -125,7 +125,22 @@ jQuery(function($) {
 			dataType : 'json',
 			data : d
 		}).done(function(msg) {
-			console.log(msg);
+			var m = '';
+			var html = '<table><tr>';
+			var i = 0;
+			
+			for (i = 0; i < msg.rows; i++)
+			{
+				html += "<tr>";
+				for (m in msg.arr)
+				{
+						html += '<td>' + msg.arr[m][i] + '</td>';
+				}
+				html += "</tr>";
+			}			
+			html += '</table>';
+			$("#resCalc").html(html);
+			$(".finalRes").fadeIn();
 		}).fail(function(jqXHR, textStatus) {
 			console.log(textStatus);
 			console.log(jqXHR);

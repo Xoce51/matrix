@@ -58,13 +58,16 @@ class Matrix
     if ($this->cols == $matrix->rows)
     {
       $rslt = new Matrix($this->rows, $matrix->cols);
-	      for ($a=0; $a < $rslt->rows; $a++) {
-          for ($b=0; $b < $rslt->cols; $b++) {
+	      for ($a = 0; $a < $rslt->rows; $a++)
+	      {
+          for ($b = 0; $b < $rslt->cols; $b++)
+          {
             $total = 0;
-              for ($c=0; $c < $matrix->rows; $c++) {
-                $total += $this->getElem($a,$c) * $matrix->getElem($c,$b);
+              for ($c = 0; $c < $matrix->rows; $c++)
+              {
+                $total += $this->getElem($a, $c) * $matrix->getElem($c, $b);
               }
-            $rslt->setElem($a,$b,$total);
+						$rslt->setElem($a,$b,$total);
           }
       	}
     return ($rslt);

@@ -1,19 +1,19 @@
 <?php
-	header('Content-type:application/json');
+	//header('Content-type:application/json');
 	include 'matrix.php';
 	/*
 	$_POST = array(
 	  "calcul" => "somme",
 	  "matrix" => array(
 	  	array(
-	  		"x" => 3,
+	  		"x" => 2,
 	  		"y" => 2,
-	  		"values" => array(1, 2, 3, 3, 2, 17)
+	  		"values" => array(1, 2, 3, 4)
 	  	),
 	  	array(
-	  		"x" => 3,
+	  		"x" => 2,
 	  		"y" => 2,
-	  		"values" => array(1, 2, 3, 3, 2, 17)
+	  		"values" => array(5, 6, 7, 8)
 	  	)
 	  )
 	 );
@@ -71,12 +71,11 @@
 				$i++;
 			}
 		}
-
 		// made calcul
 		if ($calcul == "somme")
 			die(json_encode($mat[0]->add($mat[1])));
 		else if ($calcul == "produit")
-			die(json_encode($mat[0]->multiply($mat[1])));
+			die(json_encode($mat[1]->multiply($mat[0])));
 		else if ($calcul == 'transposé')
 			die(json_encode($mat[0]->transpose()));
 		else if ($calcul == 'trace')
