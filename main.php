@@ -75,7 +75,7 @@
 		if ($calcul == "somme")
 			die(json_encode($mat[0]->add($mat[1])));
 		else if ($calcul == "produit")
-			die(json_encode($mat[1]->multiply($mat[0])));
+			die(json_encode($mat[0]->multiply($mat[1])));
 		else if ($calcul == 'transposé')
 			die(json_encode($mat[0]->transpose()));
 		else if ($calcul == 'trace')
