@@ -23,13 +23,12 @@
 	
 	if ($calcul && !empty($_POST['matrix']))
 	{
-		
 		$matrix = $_POST['matrix'];
 
 		# Matrix instantiation
 		foreach($matrix as $m)
-			$mat[] = new Matrix($m['x'], $m['y']);
-
+			$mat[] = new Matrix($m['x'], $m['y']);			
+		
 		# now populate 1 by 1
 			# matrix 1
 		$max["x"] = $mat[0]->getSize();
@@ -71,6 +70,7 @@
 				$i++;
 			}
 		}
+		
 		// made calcul
 		if ($calcul == "somme")
 			die(json_encode($mat[0]->add($mat[1])));
@@ -79,6 +79,8 @@
 		else if ($calcul == 'transposé')
 			die(json_encode($mat[0]->transpose()));
 		else if ($calcul == 'trace')
+			die(json_encode($mat[0]->trace()));
+		else if($calcul == 'gauss')
 			die(json_encode($mat[0]->trace()));
 		else 
 			die(json_encode(array('Unknown action try again')));
