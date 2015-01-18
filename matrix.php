@@ -1,9 +1,11 @@
 <?php 
 class Matrix
 {
-    public $arr, $rows, $cols;
+    public 	$arr, $rows, $cols;
+		private $step, $identity;
+		private $matrix_step = array();
 
-	function __construct($row, $col)
+	public function __construct($row, $col)
 	{
     if ($row > 0 && $col > 0)
     {
@@ -19,7 +21,7 @@ class Matrix
     }
   }
 
-	function setElem($x, $y, $val)
+	public function setElem($x, $y, $val)
 	{
 	  if ($x > -1 && $x < $this->rows)
 	  {
@@ -28,7 +30,7 @@ class Matrix
     }
   }
 
-  function getElem($x, $y)
+  public function getElem($x, $y)
   {
     if ($x > -1 && $x < $this->rows)
     {
@@ -37,7 +39,7 @@ class Matrix
     }
   }
 
-  function add($matrix)
+  public function add($matrix)
   {
   	if ($this->rows == $matrix->rows && $this->cols == $matrix->cols)
   	{
@@ -53,7 +55,7 @@ class Matrix
 			return ("Invalid matrix format");
   }
 
-  function multiply($matrix)
+  public function multiply($matrix)
   {
     if ($this->cols == $matrix->rows)
     {
@@ -76,29 +78,81 @@ class Matrix
 			return ("Invalid matrix format");
   }
 		
-	function transpose()
+	public function transpose()
 	{
 		$rslt = new Matrix($this->cols, $this->rows);
 			
-		for ($i = 0; $i < $this -> rows; $i++) {
+		for ($i = 0; $i < $this->rows; $i++) {
 			for ($j = 0; $j < $this->cols; $j++) 
 				$rslt->setElem($j, $i, $this->getElem($i, $j));
 		}
 		return ($rslt);
 	}
 		
-	function trace()
+	public function trace()
 	{
-		if ($this -> cols == $this -> rows)
+		if ($this->cols == $this->rows)
 		{
 			$tr = 0;
-			for ($i = 0; $i < $this -> rows; $i++)
+			for ($i = 0; $i < $this->rows; $i++)
 				$tr += $this->getElem($i, $i);
 		}
 		return ($tr);
 	}
 		
-		function getSize($type = "rows") { return ($this->$type); }
+	public function getSize($type = "rows") { return ($this->$type); }
+	
+	public function gauss($mat_ref)
+	{
+		$this->getIdentity();
+		$this->matrix_step["A"][0] = $this;
+		$this->matrix_step["Y"][0] = $mat_ref;
+		for ($i = 1; $i < $this->cols; $i++)
+		{
+			$this->matrix_step["G"][$i] = $this->getG($this->matrix_step["A"][$i - 1], $i); // => G(1) @TODO get the Gauss Matrix
+			$this->matrix_step["A"][$i] = $this->getMatrixStep($this->matrix_step["G"][$i], $this->matrix_step["A"][$i - 1]); // A(2) = G(1)A(1)
+			$this->matrix_step["Y"][$i] = $this->getMatrixStep($this->matrix_step["G"][$i], $this->matrix_step["Y"][$i - 1]); // Y(2) = G(1)Y(1)
+		}
+		echo "<pre>";
+		var_dump($this->matrix_step);
+		return ($this->matrix_step);
+	}
+	
+	private function getG($ref, $step)
+	{
+		$position = $step - 1;
+		while (($coef = $this->getElem($position, $position)) == 0)
+		{
+			$position++;
+		}
+		
+		for ($i = 1; $i < $this->rows; $i++)
+		{
+			$val = -($this->getElem($step, $i) / $coef);
+			$this->identity->setElem($step, $i - 1, $val);
+		}
+		return ($this->identity);
+	}
+	
+	private function getMatrixStep($m, $ma)
+	{
+		return ($m->multiply($ma));
+	}
+	
+	private function getIdentity()
+	{
+		$this->identity = new Matrix($this->cols, $this->cols);
+		for ($i = 0; $i < $this->cols; $i++)
+		{
+			for ($j = 0; $j < $this->cols; $j++)
+			{
+				if ($i === $j)
+					$this->identity->setElem($i, $j, 1);
+				else
+					$this->identity->setElem($i, $j, 0);
+			}
+		}
+	}
 
 }
 ?>

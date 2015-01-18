@@ -85,7 +85,58 @@ jQuery(function($){
 			dataType : 'json',
 			data : d
 		}).done(function(msg) {
-			console.log(msg)
+			var gaussSize = Object.keys(msg['G']).length;
+			var html = '<table align="center">';
+			var $res = $("#resCalc");
+			
+			// get Gauss matrix by step
+			for (var i = 1; i <= gaussSize; i++)
+			{
+				html += '<tr><td colspan="' + msg['G'][i]['cols'] + '">Matrice G <sup>(' + i + ')</sup></td></tr>';
+				for (var j = 0; j < msg['G'][i]['rows']; j++)
+				{
+					html += '<tr>';
+					for (var k = 0; k < msg['G'][i]['cols']; k++)
+					{
+						html += "<td>" + msg['G'][i]['arr'][j][k] + "</td>"; 
+					}
+					html += "</tr>";
+				}
+			}
+			
+			// get Original matrix transformation by step
+			for (var i = 1; i <= gaussSize; i++)
+			{
+				html += '<tr><td colspan="' + msg['A'][i]['cols'] + '">Matrice A <sup>(' + i + ')</sup></td></tr>';
+				for (var j = 0; j < msg['A'][i]['rows']; j++)
+				{
+					html += '<tr>';
+					for (var k = 0; k < msg['A'][i]['cols']; k++)
+					{
+						html += '<td>' + msg['A'][i]['arr'][j][k] + '</td>'; 
+					}
+					html += "</tr>";
+				}
+			}
+			
+			// get Y matrix transformation by step
+			for (var i = 1; i <= gaussSize; i++)
+			{
+				html += '<tr><td colspan="' + msg['A'][i]['cols'] + '">Matrice Y <sup>(' + i + ')</sup></td></tr>';
+				for (var j = 0; j < msg['Y'][i]['rows']; j++)
+				{
+					html += '<tr>';
+					for (var k = 0; k < msg['Y'][i]['cols']; k++)
+					{
+						html += '<td colspan="' + msg['A'][i]['cols'] + '">' + msg['Y'][i]['arr'][j][k] + '</td>'; 
+					}
+					html += "</tr>";
+				}
+			}
+			html += '</table>';
+			
+			// display result
+			$res.html(html);
 		}).fail(function(jqXHR, textStatus) {
 			console.log(textStatus);
 			console.log(jqXHR);

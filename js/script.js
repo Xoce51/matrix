@@ -42,7 +42,7 @@ jQuery(function($) {
 	});
 
 	// Check if matrix number are OK and display the array
-	$(document).on("click", "#display_matrix", function(e) {
+	$(document).on("click", "#display_matrix, #display_matrix_solo", function(e) {
 		var $res = $("#res");
 		var html = '<table>';
 		var i = 1;
@@ -77,19 +77,24 @@ jQuery(function($) {
 		html += '</table>';
 		$res.find(".first").append(html);
 
-		// second array
-		html = '<table>';
-		for ( i = 1; i <= matrixSize.b.x; i++) {
-			html += '<tr>';
-			for ( j = 1; j <= matrixSize.b.y; j++) {
-				html += '<td><input type="text" class="matrixData-second" placeholder="X" name="b_' + i + '_' + j + '" /></td>';
+		if ($(e.currentTarget).attr("id") !== "display_matrix_solo")
+		{
+			// second array
+			html = '<table>';
+			for ( i = 1; i <= matrixSize.b.x; i++) {
+				html += '<tr>';
+				for ( j = 1; j <= matrixSize.b.y; j++) {
+					html += '<td><input type="text" class="matrixData-second" placeholder="X" name="b_' + i + '_' + j + '" /></td>';
+				}
+				j = 1;
+				html += "</tr>";
 			}
-			j = 1;
-			html += "</tr>";
+			$(".matrix.second").fadeIn();
+			// display and append html content
+			$res.fadeIn().find(".second").append(html);
 		}
-		$(".matrix.second").fadeIn();
-		// display and append html content
-		$res.fadeIn().find(".second").append(html);
+		else
+			$res.fadeIn().next().fadeIn();
 	});
 
 	// send data with ajax
@@ -133,19 +138,24 @@ jQuery(function($) {
 			dataType : 'json',
 			data : d
 		}).done(function(msg) {
-			var m = '';
-			var html = '<table align="center"><tr>';
-			var i = 0;
-
-			for ( i = 0; i < msg.rows; i++) {
-				html += "<tr>";
-				for (m in msg.arr) {
-					html += '<td>' + msg.arr[m][i] + '</td>';
+			var $res = $("#resCalc");
+			if (typeof msg == "number")
+				$res.html('<div align="center">' + msg + '</div>');
+			else
+			{
+				var m = '';
+				var html = '<table align="center"><tr>';
+				var i = 0;
+				for (i = 0; i < msg.rows; i++) {
+					html += "<tr>";
+					for (m in msg.arr) {
+						html += '<td>' + msg.arr[m][i] + '</td>';
+					}
+					html += "</tr>";
 				}
-				html += "</tr>";
+				html += '</table>';
+				$res.html(html);
 			}
-			html += '</table>';
-			$("#resCalc").html(html);
 			$(".finalRes").fadeIn();
 		}).fail(function(jqXHR, textStatus) {
 			console.log(textStatus);

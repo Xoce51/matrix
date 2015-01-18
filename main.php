@@ -1,23 +1,27 @@
 <?php
 	//header('Content-type:application/json');
 	include 'matrix.php';
-	/*
+	//ini_set("display_errors", "On");
+	//ini_set('error_reporting', E_ALL);
+	//phpinfo();
+	//exit;
+	
 	$_POST = array(
-	  "calcul" => "somme",
+	  "calcul" => "gauss",
 	  "matrix" => array(
 	  	array(
-	  		"x" => 2,
-	  		"y" => 2,
-	  		"values" => array(1, 2, 3, 4)
+	  		"x" => 3,
+	  		"y" => 3,
+	  		"values" => array(1, 2, 3, 3, 2, 1, 2, 3, 1)
 	  	),
 	  	array(
-	  		"x" => 2,
-	  		"y" => 2,
-	  		"values" => array(5, 6, 7, 8)
+	  		"x" => 3,
+	  		"y" => 1,
+	  		"values" => array(5, 6, 7)
 	  	)
 	  )
 	 );
-	*/
+	
 	$calcul = $_POST['calcul'];
 	$mat = array();
 	
@@ -76,12 +80,12 @@
 			die(json_encode($mat[0]->add($mat[1])));
 		else if ($calcul == "produit")
 			die(json_encode($mat[0]->multiply($mat[1])));
-		else if ($calcul == 'transposé')
+		else if ($calcul == 'transposee')
 			die(json_encode($mat[0]->transpose()));
 		else if ($calcul == 'trace')
 			die(json_encode($mat[0]->trace()));
 		else if($calcul == 'gauss')
-			die(json_encode($mat[0]->trace()));
+			die(json_encode($mat[0]->gauss($mat[1])));
 		else 
 			die(json_encode(array('Unknown action try again')));
 		
