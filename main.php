@@ -5,23 +5,21 @@
 	//ini_set('error_reporting', E_ALL);
 	//phpinfo();
 	//exit;
-	
 	$_POST = array(
 	  "calcul" => "gauss",
 	  "matrix" => array(
 	  	array(
 	  		"x" => 3,
 	  		"y" => 3,
-	  		"values" => array(1, 2, 3, 3, 2, 1, 2, 3, 1)
+	  		"values" => array(1, 2, 1, 2, -1, 2, 3, 1, -1)
 	  	),
 	  	array(
 	  		"x" => 3,
 	  		"y" => 1,
-	  		"values" => array(5, 6, 7)
+	  		"values" => array(9, 3, 8)
 	  	)
 	  )
 	 );
-	
 	$calcul = $_POST['calcul'];
 	$mat = array();
 	
@@ -43,7 +41,7 @@
 		
 		while($max['y'] > $y)
 		{
-			$mat[0]->setElem($x, $y, $matrix[0]['values'][$i]);
+			$mat[0]->setElem($y, $x, $matrix[0]['values'][$i]);
 			$x++;
 			if ($x == $max['x'])
 			{
@@ -61,7 +59,6 @@
 			$x = 0;
 			$y = 0;
 			$i = 0;
-			
 			while($max['y'] > $y)
 			{
 				$mat[1]->setElem($x, $y, $matrix[1]['values'][$i]);
@@ -74,7 +71,6 @@
 				$i++;
 			}
 		}
-		
 		// made calcul
 		if ($calcul == "somme")
 			die(json_encode($mat[0]->add($mat[1])));

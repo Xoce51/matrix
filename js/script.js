@@ -111,7 +111,6 @@ jQuery(function($) {
 				values : Array()
 			}
 		};
-
 		// fill the data for matrix 1 & 2
 		var $dataDom = $(".matrixData-first");
 		dataSend[0].x = matrixSize.a.x;
@@ -139,16 +138,16 @@ jQuery(function($) {
 			data : d
 		}).done(function(msg) {
 			var $res = $("#resCalc");
-			if (typeof msg == "number")
+			if (typeof msg == "number" || typeof msg == "string")
 				$res.html('<div align="center">' + msg + '</div>');
 			else
 			{
 				var m = '';
-				var html = '<table align="center"><tr>';
+				var html = '<table align="center">';
 				var i = 0;
-				for (i = 0; i < msg.rows; i++) {
+				for (m in msg.arr) {
 					html += "<tr>";
-					for (m in msg.arr) {
+					for (i = 0; i < msg.cols; i++) {
 						html += '<td>' + msg.arr[m][i] + '</td>';
 					}
 					html += "</tr>";

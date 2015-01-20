@@ -90,13 +90,13 @@ jQuery(function($){
 			var $res = $("#resCalc");
 			
 			// get Gauss matrix by step
-			for (var i = 1; i <= gaussSize; i++)
+			for (var i = 1; i < gaussSize; i++)
 			{
-				html += '<tr><td colspan="' + msg['G'][i]['cols'] + '">Matrice G <sup>(' + i + ')</sup></td></tr>';
-				for (var j = 0; j < msg['G'][i]['rows']; j++)
+				html += '<tr><td colspan="' + msg['G'][i]['cols'] + '">Matrice G<sup>(' + (i) + ')</sup></td></tr>';
+				for (var j = 0; j < msg['G'][i]['cols']; j++)
 				{
 					html += '<tr>';
-					for (var k = 0; k < msg['G'][i]['cols']; k++)
+					for (var k = 0; k < msg['G'][i]['rows']; k++)
 					{
 						html += "<td>" + msg['G'][i]['arr'][j][k] + "</td>"; 
 					}
@@ -105,13 +105,13 @@ jQuery(function($){
 			}
 			
 			// get Original matrix transformation by step
-			for (var i = 1; i <= gaussSize; i++)
+			for (var i = 1; i <= gaussSize - 1; i++)
 			{
-				html += '<tr><td colspan="' + msg['A'][i]['cols'] + '">Matrice A <sup>(' + i + ')</sup></td></tr>';
-				for (var j = 0; j < msg['A'][i]['rows']; j++)
+				html += '<tr><td colspan="' + msg['A'][i]['cols'] + '">Matrice A<sup>(' + (i + 1) + ')</sup></td></tr>';
+				for (var j = 0; j < msg['A'][i]['cols']; j++)
 				{
 					html += '<tr>';
-					for (var k = 0; k < msg['A'][i]['cols']; k++)
+					for (var k = 0; k < msg['A'][i]['rows']; k++)
 					{
 						html += '<td>' + msg['A'][i]['arr'][j][k] + '</td>'; 
 					}
@@ -120,9 +120,9 @@ jQuery(function($){
 			}
 			
 			// get Y matrix transformation by step
-			for (var i = 1; i <= gaussSize; i++)
+			for (var i = 1; i < gaussSize; i++)
 			{
-				html += '<tr><td colspan="' + msg['A'][i]['cols'] + '">Matrice Y <sup>(' + i + ')</sup></td></tr>';
+				html += '<tr><td colspan="' + msg['A'][i]['cols'] + '">Matrice Y<sup>(' + (i + 1) + ')</sup></td></tr>';
 				for (var j = 0; j < msg['Y'][i]['rows']; j++)
 				{
 					html += '<tr>';
@@ -133,6 +133,7 @@ jQuery(function($){
 					html += "</tr>";
 				}
 			}
+			
 			html += '</table>';
 			
 			// display result

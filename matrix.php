@@ -4,6 +4,7 @@ class Matrix
     public 	$arr, $rows, $cols;
 		private $step, $identity;
 		private $matrix_step = array();
+		private $mat = array();
 
 	public function __construct($row, $col)
 	{
@@ -107,31 +108,28 @@ class Matrix
 		$this->getIdentity();
 		$this->matrix_step["A"][0] = $this;
 		$this->matrix_step["Y"][0] = $mat_ref;
-		for ($i = 1; $i < $this->cols; $i++)
+		for ($i = 1; $i <= $this->cols; $i++)
 		{
-			$this->matrix_step["G"][$i] = $this->getG($this->matrix_step["A"][$i - 1], $i); // => G(1) @TODO get the Gauss Matrix
+			$this->matrix_step["G"][$i] = $this->getG($this->matrix_step["A"][$i - 1], $i); // => G(1)
 			$this->matrix_step["A"][$i] = $this->getMatrixStep($this->matrix_step["G"][$i], $this->matrix_step["A"][$i - 1]); // A(2) = G(1)A(1)
 			$this->matrix_step["Y"][$i] = $this->getMatrixStep($this->matrix_step["G"][$i], $this->matrix_step["Y"][$i - 1]); // Y(2) = G(1)Y(1)
 		}
-		echo "<pre>";
-		var_dump($this->matrix_step);
 		return ($this->matrix_step);
 	}
 	
 	private function getG($ref, $step)
 	{
 		$position = $step - 1;
-		while (($coef = $this->getElem($position, $position)) == 0)
-		{
+		$mat = clone $this->identity;
+
+		while (($coef = $ref->getElem($position, $position)) == 0)
 			$position++;
-		}
-		
-		for ($i = 1; $i < $this->rows; $i++)
+		for ($i = 1 + $position; $i < $ref->rows; $i++)
 		{
-			$val = -($this->getElem($step, $i) / $coef);
-			$this->identity->setElem($step, $i - 1, $val);
+			$val = - ($ref->getElem($i, $position) / $coef);
+			$mat->setElem($i, $position, $val);
 		}
-		return ($this->identity);
+		return ($mat);
 	}
 	
 	private function getMatrixStep($m, $ma)
