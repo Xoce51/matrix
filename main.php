@@ -1,25 +1,5 @@
 <?php
-	//header('Content-type:application/json');
 	include 'matrix.php';
-	//ini_set("display_errors", "On");
-	//ini_set('error_reporting', E_ALL);
-	//phpinfo();
-	//exit;
-	$_POST = array(
-	  "calcul" => "gauss",
-	  "matrix" => array(
-	  	array(
-	  		"x" => 3,
-	  		"y" => 3,
-	  		"values" => array(1, 2, 1, 2, -1, 2, 3, 1, -1)
-	  	),
-	  	array(
-	  		"x" => 3,
-	  		"y" => 1,
-	  		"values" => array(9, 3, 8)
-	  	)
-	  )
-	 );
 	$calcul = $_POST['calcul'];
 	$mat = array();
 	
@@ -39,14 +19,14 @@
 		$y = 0;
 		$i = 0;
 		
-		while($max['y'] > $y)
+		while($max['x'] > $x)
 		{
-			$mat[0]->setElem($y, $x, $matrix[0]['values'][$i]);
-			$x++;
-			if ($x == $max['x'])
+			$mat[0]->setElem($x, $y, $matrix[0]['values'][$i]);
+			$y++;
+			if ($y == $max['y'])
 			{
-				$x = 0;
-				$y++;
+				$y = 0;
+				$x++;
 			}
 			$i++;
 		}
@@ -59,14 +39,14 @@
 			$x = 0;
 			$y = 0;
 			$i = 0;
-			while($max['y'] > $y)
+			while($max['x'] > $x)
 			{
 				$mat[1]->setElem($x, $y, $matrix[1]['values'][$i]);
-				$x++;
-				if ($x == $max['x'])
+				$y++;
+				if ($y == $max['y'])
 				{
-					$x = 0;
-					$y++;
+					$y = 0;
+					$x++;
 				}
 				$i++;
 			}
@@ -87,24 +67,4 @@
 		
 	}
 	echo json_encode(array('No calcul method send'));
-	/*
-	 * Structure des POST matrix
-	 * array(
-	 * "calcul" => "somme"
-	 * "matrix" =>array(
-	 * 	[0] => array(
-	 * 		"x" => 3,
-	 * 		"y" => 2,
-	 * 		"values" => array(1, 2, 3, 3, 2, 17)
-	 * 	)
-	 * 	[1] => array(
-	 * 		"x" => 2,
-	 * 		"y" => 4,
-	 * 		"values" => array(3, 4, 3, 4, 3, 4, 3, 4)
-	 * 	)
-	 * )
-	 * )
-	 * 
-	 * 
-	 */
 ?>

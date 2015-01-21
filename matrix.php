@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 class Matrix
 {
     public 	$arr, $rows, $cols;
@@ -114,7 +115,31 @@ class Matrix
 			$this->matrix_step["A"][$i] = $this->getMatrixStep($this->matrix_step["G"][$i], $this->matrix_step["A"][$i - 1]); // A(2) = G(1)A(1)
 			$this->matrix_step["Y"][$i] = $this->getMatrixStep($this->matrix_step["G"][$i], $this->matrix_step["Y"][$i - 1]); // Y(2) = G(1)Y(1)
 		}
+		$this->matrix_step["solution"] = $this->solution($this->matrix_step);
 		return ($this->matrix_step);
+	}
+	
+	private function solution($matrix)
+	{
+		$res = array();
+		$i = count($this->matrix_step["Y"]) - 1;
+		$y = count($this->matrix_step["Y"][$i]->arr) - 1;
+		$intermediaire = 0;
+
+		for ($j = $y; $j >= 0; $j--)
+		{
+			$res["x"][$j + 1] = ($this->matrix_step["Y"][$i]->arr[$j][0] - $intermediaire) / $this->matrix_step["A"][$i]->arr[$j][$j];
+			$intermediaire = 0;
+			if ($j - 1 >= 0)
+			{
+				foreach ($this->matrix_step["A"][$i]->arr[$j - 1] as $k => $v)
+				{
+					if ($v != 0)
+						$intermediaire += $res["x"][$k + 1] * $this->matrix_step["A"][$i]->arr[$j - 1][$k];
+				}
+			}
+		}
+		return ($res);
 	}
 	
 	private function getG($ref, $step)

@@ -86,6 +86,7 @@ jQuery(function($){
 			data : d
 		}).done(function(msg) {
 			var gaussSize = Object.keys(msg['G']).length;
+			var resLen = Object.keys(msg['solution']['x']).length;
 			var html = '<table align="center">';
 			var $res = $("#resCalc");
 			
@@ -133,8 +134,16 @@ jQuery(function($){
 					html += "</tr>";
 				}
 			}
-			
-			html += '</table>';
+			html += '</table><div align="center">';
+			html += "<h3>Résultat</h3>";
+			html += "<p>{(";
+			for (var i = 1; i <= resLen ; i++)
+			{
+				html += msg["solution"]["x"][i];
+				if (i !== resLen)
+					html += ", ";
+			}
+			html += ")}</p></div>";
 			
 			// display result
 			$res.html(html);
